@@ -1,0 +1,31 @@
+version: "3"
+services:
+
+  postgresql:
+    image: postgres:11
+    container_name: "postgres_compose"
+    ports:
+      - "5432:5432"
+    environment:
+      - DB_NAME=dbname
+      - DB_USERNAME=postgres_1
+      - DB_PASSWORD=[password]1
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgresql-init:/docker-entrypoint-initdb.d/
+    restart: always
+    networks:
+      infranet:
+        aliases:
+          - 'postgres'
+
+networks:
+  infranet:
+
+volumes:
+  postgresql-init:
+    driver_opts:
+      type: none
+      device: ${PWD}/init
+      o: bind
